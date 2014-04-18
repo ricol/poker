@@ -53,7 +53,7 @@ implementation
 
 var
   GSelected: integer;
-  GImageArray: array[1..12] of TImage;
+  GImageArray: array [1 .. 12] of TImage;
 
 procedure TFormSelectBackground.BtnCancelClick(Sender: TObject);
 begin
@@ -69,7 +69,7 @@ end;
 procedure TFormSelectBackground.FormActivate(Sender: TObject);
 var
   tmpPanel: TPanel;
-  i: Integer;
+  i: integer;
 begin
   GSelected := GPokerBackGround;
   GImageArray[1] := Image1;
@@ -88,7 +88,8 @@ begin
   tmpPanel.Color := clRed;
   tmpPanel.BorderWidth := 2;
   for i := 1 to 12 do
-    GImageArray[i].Picture.Bitmap.LoadFromResourceName(hInstance, Format('BMPPOKERBACK%d', [i - 1]));
+    GImageArray[i].Picture.Bitmap.LoadFromResourceName(hInstance,
+      Format('BMPPOKERBACK%d', [i - 1]));
 end;
 
 procedure TFormSelectBackground.Image1Click(Sender: TObject);

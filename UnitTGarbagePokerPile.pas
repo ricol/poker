@@ -11,7 +11,7 @@ type
   private
     FPileNumber: integer;
     FPileIndex: integer;
-    FPokerArray: array[1..MAXPOKER] of TPoker;
+    FPokerArray: array [1 .. MAXPOKER] of TPoker;
     FTop: integer;
     FLeft: integer;
     FParentHandle: Thandle;
@@ -23,7 +23,9 @@ type
     procedure SetParentHandle(const Value: Thandle);
     procedure SetBackGroundImage(const Value: TImage);
   public
-    constructor Create(tmpParent: TWinControl; tmpParentHandle: THandle; tmpPileNumber: integer; tmpPileIndex: integer; tmpTop: integer; tmpLeft: integer);
+    constructor Create(tmpParent: TWinControl; tmpParentHandle: Thandle;
+      tmpPileNumber: integer; tmpPileIndex: integer; tmpTop: integer;
+      tmpLeft: integer);
     destructor Destroy(); override;
     procedure Show;
     procedure Add(tmpPoker: TPoker);
@@ -34,7 +36,8 @@ type
     property Left: integer read FLeft write SetLeft;
     property Top: integer read FTop write SetTop;
     property ParentHandle: Thandle read FParentHandle write SetParentHandle;
-    property BackGroundImage: TImage read FBackGroundImage write SetBackGroundImage;
+    property BackGroundImage: TImage read FBackGroundImage
+      write SetBackGroundImage;
   end;
 
 implementation
@@ -45,7 +48,8 @@ procedure TGarbagePokerPile.Add(tmpPoker: TPoker);
 begin
   if FPileNumber > MAXPOKER then
   begin
-    MessageBox(FParentHandle, 'TPokerPile.Remove Error!', 'ERROR', MB_OK or MB_ICONERROR);
+    MessageBox(FParentHandle, 'TPokerPile.Remove Error!', 'ERROR',
+      MB_OK or MB_ICONERROR);
     exit;
   end;
   inc(FPileNumber);
@@ -55,9 +59,11 @@ begin
   FPokerArray[FPileNumber] := tmpPoker;
 end;
 
-constructor TGarbagePokerPile.Create(tmpParent: TWinControl; tmpParentHandle: THandle; tmpPileNumber: integer; tmpPileIndex: integer; tmpTop: integer; tmpLeft: integer);
+constructor TGarbagePokerPile.Create(tmpParent: TWinControl;
+  tmpParentHandle: Thandle; tmpPileNumber: integer; tmpPileIndex: integer;
+  tmpTop: integer; tmpLeft: integer);
 var
-  i: Integer;
+  i: integer;
 begin
   inherited Create;
   Left := tmpLeft;
@@ -67,7 +73,8 @@ begin
   FParentHandle := tmpParentHandle;
   FBackGroundImage := TImage.Create(tmpParent);
   FBackGroundImage.Parent := tmpParent;
-  FBackGroundImage.Picture.Bitmap.LoadFromResourceName(hInstance, 'BMPPOKEGARBAGEBACKGROUND');
+  FBackGroundImage.Picture.Bitmap.LoadFromResourceName(hInstance,
+    'BMPPOKEGARBAGEBACKGROUND');
   FBackGroundImage.Hide;
   for i := 1 to MAXPOKER do
     FPokerArray[i] := nil;
@@ -75,7 +82,7 @@ end;
 
 destructor TGarbagePokerPile.Destroy;
 var
-  i: Integer;
+  i: integer;
 begin
   if FBackGroundImage <> nil then
     FreeAndNil(FBackGroundImage);
@@ -95,11 +102,12 @@ end;
 
 procedure TGarbagePokerPile.Remove(tmpPoker: TPoker);
 var
-  i: Integer;
+  i: integer;
 begin
   if FPileNumber < 1 then
   begin
-    MessageBox(FParentHandle, 'TPokerPile.Remove Error!', 'ERROR', MB_OK or MB_ICONERROR);
+    MessageBox(FParentHandle, 'TPokerPile.Remove Error!', 'ERROR',
+      MB_OK or MB_ICONERROR);
     exit;
   end;
   for i := tmpPoker.Number + 1 to FPileNumber do
@@ -146,14 +154,15 @@ end;
 
 procedure TGarbagePokerPile.Show;
 var
-  i: Integer;
+  i: integer;
 begin
   if FPileNumber = 0 then
   begin
     FBackGroundImage.Left := Self.Left;
     FBackGroundImage.Top := Self.Top;
     FBackGroundImage.Show;
-  end else
+  end
+  else
   begin
     FBackGroundImage.Hide;
     for i := 1 to FPileNumber do
@@ -166,4 +175,3 @@ begin
 end;
 
 end.
-

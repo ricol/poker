@@ -31,7 +31,8 @@ type
     procedure SetBelongToType(const Value: TPileType);
     procedure SetBackGround(const Value: integer);
   public
-    constructor Create(AOwner: TComponent; tmpParentHandle: THandle; tmpFlag: Boolean; tmpLeft, tmpTop, tmpX, tmpY: integer); reintroduce;
+    constructor Create(AOwner: TComponent; tmpParentHandle: THandle;
+      tmpFlag: boolean; tmpLeft, tmpTop, tmpX, tmpY: integer); reintroduce;
     destructor Destroy(); override;
     procedure ReShow();
     property Flag: boolean read FFlag write SetFlag;
@@ -44,17 +45,22 @@ type
     property CanDrag: boolean read FCanDrag write SetCanDrag;
     property BackGround: integer read FBackGround write SetBackGround;
     property BelongToType: TPileType read FBelongToType write SetBelongToType;
-    procedure Process_WM_LBUTTONDOWN(var tmpMsg: TWMLButtonDown); message WM_LBUTTONDOWN;
-    procedure Process_WM_LBUTTONUP(var tmpMsg: TWMLButtonUP); message WM_LBUTTONUP;
-    procedure Process_WM_MOUSEMOVE(var tmpMsg: TWMMouseMove); message WM_MOUSEMOVE;
-    procedure Process_WM_RBUTTONDOWN(var tmpMsg: TWMRButtonDown); message WM_RBUTTONDOWN;
+    procedure Process_WM_LBUTTONDOWN(var tmpMsg: TWMLButtonDown);
+      message WM_LBUTTONDOWN;
+    procedure Process_WM_LBUTTONUP(var tmpMsg: TWMLButtonUP);
+      message WM_LBUTTONUP;
+    procedure Process_WM_MOUSEMOVE(var tmpMsg: TWMMouseMove);
+      message WM_MOUSEMOVE;
+    procedure Process_WM_RBUTTONDOWN(var tmpMsg: TWMRButtonDown);
+      message WM_RBUTTONDOWN;
   end;
 
 implementation
 
 { TPoker }
 
-constructor TPoker.Create(AOwner: TComponent; tmpParentHandle: THandle; tmpFlag: Boolean; tmpLeft, tmpTop, tmpX, tmpY: integer);
+constructor TPoker.Create(AOwner: TComponent; tmpParentHandle: THandle;
+  tmpFlag: boolean; tmpLeft, tmpTop, tmpX, tmpY: integer);
 begin
   inherited Create(AOwner);
   Self.Left := tmpLeft;
@@ -69,7 +75,8 @@ begin
   Self.FFlag := tmpFlag;
   Self.FBackGround := 0;
   Self.Hide;
-  Self.Picture.Bitmap.LoadFromResourceName(hInstance, Format('BMPPOKERBACK%d', [FBackGround]));
+  Self.Picture.Bitmap.LoadFromResourceName(hInstance,
+    Format('BMPPOKERBACK%d', [FBackGround]));
 end;
 
 destructor TPoker.Destroy;
@@ -92,15 +99,18 @@ begin
     FInitiator := true;
     SendMessage(FParentHandle, WM_BEGINMOVE, FPileIndex, FNumber);
     inherited;
-  end else if BelongToType = OTHERLEFT then
+  end
+  else if BelongToType = OTHERLEFT then
   begin
     SendMessage(FParentHandle, WM_OTHERLEFTCLICK, 0, 0);
     inherited;
-  end else if BelongToType = OTHERLEFTBACKGROUND then
+  end
+  else if BelongToType = OTHERLEFTBACKGROUND then
   begin
     SendMessage(FParentHandle, WM_OTHERLEFTRESTART, 0, 0);
     inherited;
-  end else if BelongToType = OTHERRIGHT then
+  end
+  else if BelongToType = OTHERRIGHT then
   begin
     FOldX := tmpMsg.XPos;
     FOldY := tmpMsg.YPos;
@@ -124,7 +134,8 @@ begin
     FInitiator := false;
     SendMessage(FParentHandle, WM_ENDMOVE, FPileIndex, FNumber);
     inherited;
-  end else if BelongToType = OTHERRIGHT then
+  end
+  else if BelongToType = OTHERRIGHT then
   begin
     if not Flag then
     begin
@@ -149,11 +160,14 @@ begin
     end;
     Left := Left + (tmpMsg.XPos - FOldX);
     Top := Top + (tmpMsg.YPos - FOldY);
-    SendMessage(FParentHandle, WM_MOVING, (tmpMsg.XPos - FOldX), (tmpMsg.YPos - FOldY));
+    SendMessage(FParentHandle, WM_MOVING, (tmpMsg.XPos - FOldX),
+      (tmpMsg.YPos - FOldY));
     inherited;
-  end else if BelongToType = OTHERRIGHT then
+  end
+  else if BelongToType = OTHERRIGHT then
   begin
-    if not FCanDrag then exit;
+    if not FCanDrag then
+      exit;
     Left := Left + (tmpMsg.XPos - FOldX);
     Top := Top + (tmpMsg.YPos - FOldY);
     inherited;
@@ -171,9 +185,13 @@ procedure TPoker.ReShow;
 begin
   if FFlag then
   begin
-    Self.Picture.Bitmap.LoadFromResourceName(hInstance, Format('BMPPOKE%d_%d', [X, Y]));
-  end else begin
-    Self.Picture.Bitmap.LoadFromResourceName(hInstance, Format('BMPPOKERBACK%d', [FBackGround]));
+    Self.Picture.Bitmap.LoadFromResourceName(hInstance,
+      Format('BMPPOKE%d_%d', [X, Y]));
+  end
+  else
+  begin
+    Self.Picture.Bitmap.LoadFromResourceName(hInstance,
+      Format('BMPPOKERBACK%d', [FBackGround]));
   end;
   Self.Show;
 end;
@@ -183,7 +201,8 @@ begin
   if (Value >= 0) and (Value <= 11) then
   begin
     FBackGround := Value;
-    Self.Picture.Bitmap.LoadFromResourceName(hInstance, Format('BMPPOKERBACK%d', [Value]));
+    Self.Picture.Bitmap.LoadFromResourceName(hInstance,
+      Format('BMPPOKERBACK%d', [Value]));
     ReShow;
   end;
 end;

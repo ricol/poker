@@ -10,7 +10,7 @@ type
   private
     FPileNumber: integer;
     FPileIndex: integer;
-    FPokerArray: array[1..MAXPOKER] of TPoker;
+    FPokerArray: array [1 .. MAXPOKER] of TPoker;
     FTop: integer;
     FLeft: integer;
     FParentHandle: Thandle;
@@ -20,7 +20,8 @@ type
     procedure SetTop(const Value: integer);
     procedure SetParentHandle(const Value: Thandle);
   public
-    constructor Create(tmpParentHandle: THandle; tmpPileNumber: integer; tmpPileIndex: integer; tmpTop: integer; tmpLeft: integer);
+    constructor Create(tmpParentHandle: Thandle; tmpPileNumber: integer;
+      tmpPileIndex: integer; tmpTop: integer; tmpLeft: integer);
     destructor Destroy(); override;
     procedure Show;
     procedure Add(tmpPoker: TPoker);
@@ -41,7 +42,8 @@ procedure TPokerPile.Add(tmpPoker: TPoker);
 begin
   if FPileNumber > MAXPOKER then
   begin
-    MessageBox(FParentHandle, 'TPokerPile.Remove Error!', 'ERROR', MB_OK or MB_ICONERROR);
+    MessageBox(FParentHandle, 'TPokerPile.Remove Error!', 'ERROR',
+      MB_OK or MB_ICONERROR);
     exit;
   end;
   inc(FPileNumber);
@@ -60,7 +62,8 @@ var
 begin
   if FPileNumber < 1 then
   begin
-    MessageBox(FParentHandle, 'TPokerPile.Remove Error!', 'ERROR', MB_OK or MB_ICONERROR);
+    MessageBox(FParentHandle, 'TPokerPile.Remove Error!', 'ERROR',
+      MB_OK or MB_ICONERROR);
     exit;
   end;
   for i := tmpPoker.Number + 1 to FPileNumber do
@@ -75,9 +78,10 @@ begin
   dec(FPileNumber);
 end;
 
-constructor TPokerPile.Create(tmpParentHandle: THandle; tmpPileNumber: integer; tmpPileIndex: integer; tmpTop: integer; tmpLeft: integer);
+constructor TPokerPile.Create(tmpParentHandle: Thandle; tmpPileNumber: integer;
+  tmpPileIndex: integer; tmpTop: integer; tmpLeft: integer);
 var
-  i: Integer;
+  i: integer;
 begin
   inherited Create;
   Left := tmpLeft;
@@ -91,7 +95,7 @@ end;
 
 destructor TPokerPile.Destroy;
 var
-  i: Integer;
+  i: integer;
 begin
   for i := 1 to MAXPOKER do
     if FPokerArray[i] <> nil then
@@ -109,7 +113,7 @@ end;
 
 procedure TPokerPile.SetLeft(const Value: integer);
 var
-  i: Integer;
+  i: integer;
 begin
   FLeft := Value;
   for i := 1 to FPileNumber do
@@ -140,7 +144,7 @@ end;
 
 procedure TPokerPile.Show;
 var
-  i: Integer;
+  i: integer;
 begin
   for i := 1 to FPileNumber do
   begin

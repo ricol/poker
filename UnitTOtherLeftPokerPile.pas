@@ -9,7 +9,7 @@ type
   TOtherLeftPokerPile = class
   private
     FParentHandle: THandle;
-    FPokerArray: array[1..MAXPOKER] of TPoker;
+    FPokerArray: array [1 .. MAXPOKER] of TPoker;
     FPileNumber: integer;
     FTop: integer;
     FLeft: integer;
@@ -18,7 +18,8 @@ type
     procedure SetLeft(const Value: integer);
     procedure SetTop(const Value: integer);
   public
-    constructor Create(tmpParentHandle: THandle; tmpPileNumber: integer; tmpTop: integer; tmpLeft: integer);
+    constructor Create(tmpParentHandle: THandle; tmpPileNumber: integer;
+      tmpTop: integer; tmpLeft: integer);
     destructor Destroy(); override;
     procedure Show();
     procedure Add(tmpPoker: TPoker);
@@ -38,7 +39,8 @@ procedure TOtherLeftPokerPile.Add(tmpPoker: TPoker);
 begin
   if FPileNumber > MAXPOKER then
   begin
-    MessageBox(FParentHandle, 'TOtherLeftPokerPile.Add Error!', 'ERROR', MB_OK or MB_ICONERROR);
+    MessageBox(FParentHandle, 'TOtherLeftPokerPile.Add Error!', 'ERROR',
+      MB_OK or MB_ICONERROR);
     exit;
   end;
   inc(FPileNumber);
@@ -49,7 +51,8 @@ begin
   FPokerArray[FPileNumber] := tmpPoker;
 end;
 
-constructor TOtherLeftPokerPile.Create(tmpParentHandle: THandle; tmpPileNumber: integer; tmpTop: integer; tmpLeft: integer);
+constructor TOtherLeftPokerPile.Create(tmpParentHandle: THandle;
+  tmpPileNumber: integer; tmpTop: integer; tmpLeft: integer);
 begin
   FParentHandle := tmpParentHandle;
   FPileNumber := tmpPileNumber;
@@ -79,7 +82,8 @@ procedure TOtherLeftPokerPile.Remove(tmpPoker: TPoker);
 begin
   if FPileNumber < 1 then
   begin
-    MessageBox(FParentHandle, 'TOtherLeftPokerPile.Remove Error!', 'ERROR', MB_OK or MB_ICONERROR);
+    MessageBox(FParentHandle, 'TOtherLeftPokerPile.Remove Error!', 'ERROR',
+      MB_OK or MB_ICONERROR);
     exit;
   end;
   dec(FPileNumber);

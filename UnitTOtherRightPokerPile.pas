@@ -9,7 +9,7 @@ type
   TOtherRightPokerPile = class
   private
     FParentHandle: THandle;
-    FPokerArray: array[1..MAXPOKER] of TPoker;
+    FPokerArray: array [1 .. MAXPOKER] of TPoker;
     FPileNumber: integer;
     FTop: integer;
     FLeft: integer;
@@ -18,7 +18,8 @@ type
     procedure SetLeft(const Value: integer);
     procedure SetTop(const Value: integer);
   public
-    constructor Create(tmpParentHandle: THandle; tmpPileNumber: integer; tmpTop: integer; tmpLeft: integer);
+    constructor Create(tmpParentHandle: THandle; tmpPileNumber: integer;
+      tmpTop: integer; tmpLeft: integer);
     destructor Destroy(); override;
     procedure Show();
     procedure Add(tmpPoker: TPoker);
@@ -38,7 +39,8 @@ procedure TOtherRightPokerPile.Add(tmpPoker: TPoker);
 begin
   if FPileNumber > MAXPOKER then
   begin
-    MessageBox(FParentHandle, 'TOtherRightPokerPile.Add Error!', 'ERROR', MB_OK or MB_ICONERROR);
+    MessageBox(FParentHandle, 'TOtherRightPokerPile.Add Error!', 'ERROR',
+      MB_OK or MB_ICONERROR);
     exit;
   end;
   inc(FPileNumber);
@@ -49,7 +51,8 @@ begin
   FPokerArray[FPileNumber] := tmpPoker;
 end;
 
-constructor TOtherRightPokerPile.Create(tmpParentHandle: THandle; tmpPileNumber: integer; tmpTop: integer; tmpLeft: integer);
+constructor TOtherRightPokerPile.Create(tmpParentHandle: THandle;
+  tmpPileNumber: integer; tmpTop: integer; tmpLeft: integer);
 begin
   FParentHandle := tmpParentHandle;
   FPileNumber := tmpPileNumber;
@@ -77,11 +80,12 @@ end;
 
 procedure TOtherRightPokerPile.Remove(tmpPoker: TPoker);
 var
-  i: Integer;
+  i: integer;
 begin
   if FPileNumber < 1 then
   begin
-    MessageBox(FParentHandle, 'TOtherRightPokerPile.Remove Error!', 'ERROR', MB_OK or MB_ICONERROR);
+    MessageBox(FParentHandle, 'TOtherRightPokerPile.Remove Error!', 'ERROR',
+      MB_OK or MB_ICONERROR);
     exit;
   end;
   for i := tmpPoker.Number + 1 to FPileNumber do
@@ -109,7 +113,7 @@ end;
 
 procedure TOtherRightPokerPile.SetLeft(const Value: integer);
 var
-  i: Integer;
+  i: integer;
 begin
   FLeft := Value;
   for i := 1 to FPileNumber do

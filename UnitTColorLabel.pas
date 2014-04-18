@@ -49,16 +49,17 @@ type
 
   TColorLabel = class(TLabel)
   private
-    FGo: boolean;
+    FGo: Boolean;
     FMyThread: TMyThread;
-    procedure ProcessMessage_WM_MBUTTONDOWN(var tmpMsg: TWMMButtonDown); message WM_MBUTTONDOWN;
-    procedure SetGo(const Value: boolean);
+    procedure ProcessMessage_WM_MBUTTONDOWN(var tmpMsg: TWMMButtonDown);
+      message WM_MBUTTONDOWN;
+    procedure SetGo(const Value: Boolean);
   published
   public
     constructor Create(AOwner: TComponent); reintroduce;
     destructor Destroy(); override;
     procedure AdjustPlace();
-    property Go: boolean read FGo write SetGo;
+    property Go: Boolean read FGo write SetGo;
   end;
 
 implementation
@@ -103,8 +104,7 @@ begin
   inherited;
 end;
 
-procedure TColorLabel.ProcessMessage_WM_MBUTTONDOWN(
-  var tmpMsg: TWMMButtonDown);
+procedure TColorLabel.ProcessMessage_WM_MBUTTONDOWN(var tmpMsg: TWMMButtonDown);
 var
   tmpS: string;
 begin
@@ -120,7 +120,7 @@ begin
   inherited;
 end;
 
-procedure TColorLabel.SetGo(const Value: boolean);
+procedure TColorLabel.SetGo(const Value: Boolean);
 begin
   if FGo <> Value then
   begin
@@ -128,7 +128,9 @@ begin
     if Value then
     begin
       FMyThread.Resume;
-    end else begin
+    end
+    else
+    begin
       FMyThread.Suspend;
     end;
   end;
@@ -158,7 +160,7 @@ procedure TMyThread.Execute;
 begin
   inherited;
   repeat
-    if Fnum = NUMRED then
+    if FNum = NUMRED then
     begin
       if FR = INCREASE then
       begin
@@ -166,17 +168,20 @@ begin
         if FRed >= 255 then
         begin
           FR := DECREASE;
-          Fnum := NUMBLUE;
+          FNum := NUMBLUE;
         end;
-      end else begin
+      end
+      else
+      begin
         dec(FRed, 5);
         if FRed <= 0 then
         begin
           FR := INCREASE;
-          Fnum := NUMBLUE;
+          FNum := NUMBLUE;
         end;
       end;
-    end else if Fnum = NUMGREEN then
+    end
+    else if FNum = NUMGREEN then
     begin
       if FG = INCREASE then
       begin
@@ -184,44 +189,52 @@ begin
         if FGreen >= 255 then
         begin
           FG := DECREASE;
-          Fnum := NUMRED;
+          FNum := NUMRED;
         end;
-      end else begin
+      end
+      else
+      begin
         dec(FGreen, 5);
         if FGreen <= 0 then
         begin
           FG := INCREASE;
-          Fnum := NUMRED;
+          FNum := NUMRED;
         end;
       end;
-    end else begin
+    end
+    else
+    begin
       if FB = INCREASE then
       begin
         inc(FBlue, 5);
         if FBlue >= 255 then
         begin
           FB := DECREASE;
-          Fnum := NUMGREEN;
+          FNum := NUMGREEN;
         end;
-      end else begin
+      end
+      else
+      begin
         dec(FBlue, 5);
         if FBlue <= 0 then
         begin
           FB := INCREASE;
-          Fnum := NUMGREEN;
+          FNum := NUMGREEN;
         end;
       end;
     end;
-    if FCriticalSection = nil then exit;
-//    FCriticalSection.Enter;
+    if FCriticalSection = nil then
+      exit;
+    // FCriticalSection.Enter;
     try
       Synchronize(ChangeColor);
     finally
-//      FCriticalSection.Leave;
-//FCriticalSection不使用是因为如果启动一个TColorLabel对象然后直接关闭程序，
-//会出现问题。解决这个问题的办法就是不使用同步对象。
+      // FCriticalSection.Leave;
+      // FCriticalSection不使用是因为如果启动一个TColorLabel对象然后直接关闭程序，
+      // 会出现问题。解决这个问题的办法就是不使用同步对象。
     end;
-    if Self.Terminated then break;
+    if Self.Terminated then
+      break;
     Sleep(FSpeed);
   until false;
 end;
