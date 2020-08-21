@@ -68,7 +68,7 @@ end;
 
 procedure TFormSelectBackground.FormActivate(Sender: TObject);
 var
-  tmpPanel: TPanel;
+  panel: TPanel;
   i: integer;
 begin
   GSelected := GPokerBackGround;
@@ -84,9 +84,9 @@ begin
   GImageArray[10] := Image10;
   GImageArray[11] := Image11;
   GImageArray[12] := Image12;
-  tmpPanel := GImageArray[GSelected + 1].Parent as TPanel;
-  tmpPanel.Color := clRed;
-  tmpPanel.BorderWidth := 2;
+  panel := GImageArray[GSelected + 1].Parent as TPanel;
+  panel.Color := clRed;
+  panel.BorderWidth := 2;
   for i := 1 to 12 do
     GImageArray[i].Picture.Bitmap.LoadFromResourceName(hInstance,
       Format('BMPPOKERBACK%d', [i - 1]));
@@ -94,15 +94,15 @@ end;
 
 procedure TFormSelectBackground.Image1Click(Sender: TObject);
 var
-  tmpPanel: TPanel;
+  panel: TPanel;
 begin
-  tmpPanel := GImageArray[GSelected + 1].Parent as TPanel;
-  tmpPanel.Color := clBlack;
-  tmpPanel.BorderWidth := 1;
+  panel := GImageArray[GSelected + 1].Parent as TPanel;
+  panel.Color := clBlack;
+  panel.BorderWidth := 1;
   GSelected := (Sender as TImage).Tag;
-  tmpPanel := GImageArray[GSelected + 1].Parent as TPanel;
-  tmpPanel.Color := clRed;
-  tmpPanel.BorderWidth := 2;
+  panel := GImageArray[GSelected + 1].Parent as TPanel;
+  panel.Color := clRed;
+  panel.BorderWidth := 2;
 end;
 
 end.

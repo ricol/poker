@@ -16,10 +16,10 @@ type
     FPokeArray: array [1 .. CARDNUMBER] of TPokeNum;
     FIndex: integer;
   public
-    constructor Create(tmpHandle: THandle);
+    constructor Create(handle: THandle);
     destructor Destroy(); override;
     function GetPoke(): TPokeNum;
-    procedure SwapPokeNum(var tmpPokeNum1: TPokeNum; var tmpPokeNum2: TPokeNum);
+    procedure SwapPokeNum(var pokeNum1: TPokeNum; var pokeNum2: TPokeNum);
     procedure RandomData();
   end;
 
@@ -27,12 +27,12 @@ implementation
 
 { TPokeArray }
 
-constructor TPokeArray.Create(tmpHandle: THandle);
+constructor TPokeArray.Create(handle: THandle);
 var
   i, j, k: integer;
 begin
   FIndex := 1;
-  FParentHandle := tmpHandle;
+  FParentHandle := handle;
   k := 1;
   for i := 1 to 4 do
   begin
@@ -72,14 +72,14 @@ begin
       FPokeArray[Random(CARDNUMBER) + 1]);
 end;
 
-procedure TPokeArray.SwapPokeNum(var tmpPokeNum1: TPokeNum;
-  var tmpPokeNum2: TPokeNum);
+procedure TPokeArray.SwapPokeNum(var pokeNum1: TPokeNum;
+  var pokeNum2: TPokeNum);
 var
   tmpPokeNum: TPokeNum;
 begin
-  tmpPokeNum := tmpPokeNum1;
-  tmpPokeNum1 := tmpPokeNum2;
-  tmpPokeNum2 := tmpPokeNum;
+  tmpPokeNum := pokeNum1;
+  pokeNum1 := pokeNum2;
+  pokeNum2 := tmpPokeNum;
 end;
 
 end.

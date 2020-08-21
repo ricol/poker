@@ -51,7 +51,7 @@ type
   private
     FGo: Boolean;
     FMyThread: TMyThread;
-    procedure ProcessMessage_WM_MBUTTONDOWN(var tmpMsg: TWMMButtonDown);
+    procedure ProcessMessage_WM_MBUTTONDOWN(var msg: TWMMButtonDown);
       message WM_MBUTTONDOWN;
     procedure SetGo(const Value: Boolean);
   published
@@ -66,16 +66,16 @@ implementation
 
 procedure TColorLabel.AdjustPlace;
 var
-  tmpParent: THandle;
-  tmpRect: TRect;
-  tmpParentWidth, tmpParentHeight: integer;
+  parenHandle: THandle;
+  rect: TRect;
+  parentWidth, parentHeight: integer;
 begin
-  tmpParent := Self.Parent.Handle;
-  Windows.GetClientRect(tmpParent, tmpRect);
-  tmpParentWidth := tmpRect.Right - tmpRect.Left;
-  tmpParentHeight := tmpRect.Bottom - tmpRect.Top;
-  Self.Left := tmpParentWidth div 2 - Self.Width div 2;
-  Self.Top := tmpParentHeight div 2 - Self.Height div 2;
+  parenHandle := Self.Parent.Handle;
+  Windows.GetClientRect(parenHandle, rect);
+  parentWidth := rect.Right - rect.Left;
+  parentHeight := rect.Bottom - rect.Top;
+  Self.Left := parentWidth div 2 - Self.Width div 2;
+  Self.Top := parentHeight div 2 - Self.Height div 2;
 end;
 
 constructor TColorLabel.Create(AOwner: TComponent);
@@ -104,17 +104,17 @@ begin
   inherited;
 end;
 
-procedure TColorLabel.ProcessMessage_WM_MBUTTONDOWN(var tmpMsg: TWMMButtonDown);
+procedure TColorLabel.ProcessMessage_WM_MBUTTONDOWN(var msg: TWMMButtonDown);
 var
-  tmpS: string;
+  s: string;
 begin
-  tmpS := Self.Caption;
-  if tmpMsg.Msg = WM_MBUTTONDOWN then
+  s := Self.Caption;
+  if msg.Msg = WM_MBUTTONDOWN then
   begin
     Beep;
-    tmpS := InputBox('输入', '请输入想要显示的信息：', tmpS);
-    if tmpS <> '' then
-      Self.Caption := tmpS;
+    s := InputBox('输入', '请输入想要显示的信息：', s);
+    if s <> '' then
+      Self.Caption := s;
     AdjustPlace;
   end;
   inherited;

@@ -31,8 +31,8 @@ type
     procedure SetBelongToType(const Value: TPileType);
     procedure SetBackGround(const Value: integer);
   public
-    constructor Create(AOwner: TComponent; tmpParentHandle: THandle;
-      tmpFlag: boolean; tmpLeft, tmpTop, tmpX, tmpY: integer); reintroduce;
+    constructor Create(AOwner: TComponent; parentHandle: THandle;
+      flag: boolean; _left, _top, _x, _y: integer); reintroduce;
     destructor Destroy(); override;
     procedure ReShow();
     property Flag: boolean read FFlag write SetFlag;
@@ -45,13 +45,13 @@ type
     property CanDrag: boolean read FCanDrag write SetCanDrag;
     property BackGround: integer read FBackGround write SetBackGround;
     property BelongToType: TPileType read FBelongToType write SetBelongToType;
-    procedure Process_WM_LBUTTONDOWN(var tmpMsg: TWMLButtonDown);
+    procedure Process_WM_LBUTTONDOWN(var msg: TWMLButtonDown);
       message WM_LBUTTONDOWN;
-    procedure Process_WM_LBUTTONUP(var tmpMsg: TWMLButtonUP);
+    procedure Process_WM_LBUTTONUP(var msg: TWMLButtonUP);
       message WM_LBUTTONUP;
-    procedure Process_WM_MOUSEMOVE(var tmpMsg: TWMMouseMove);
+    procedure Process_WM_MOUSEMOVE(var msg: TWMMouseMove);
       message WM_MOUSEMOVE;
-    procedure Process_WM_RBUTTONDOWN(var tmpMsg: TWMRButtonDown);
+    procedure Process_WM_RBUTTONDOWN(var msg: TWMRButtonDown);
       message WM_RBUTTONDOWN;
   end;
 
@@ -59,20 +59,20 @@ implementation
 
 { TPoker }
 
-constructor TPoker.Create(AOwner: TComponent; tmpParentHandle: THandle;
-  tmpFlag: boolean; tmpLeft, tmpTop, tmpX, tmpY: integer);
+constructor TPoker.Create(AOwner: TComponent; parentHandle: THandle;
+  flag: boolean; _left, _top, _x, _y: integer);
 begin
   inherited Create(AOwner);
-  Self.Left := tmpLeft;
-  Self.Top := tmpTop;
+  Self.Left := _left;
+  Self.Top := _top;
   Self.Width := CONSTWIDTH;
   Self.Top := CONSTHEIGHT;
-  Self.X := tmpX;
-  Self.Y := tmpY;
-  Self.FParentHandle := tmpParentHandle;
+  Self.X := _x;
+  Self.Y := _y;
+  Self.FParentHandle := parentHandle;
   Self.FCanDrag := false;
   Self.FInitiator := false;
-  Self.FFlag := tmpFlag;
+  Self.FFlag := flag;
   Self.FBackGround := 0;
   Self.Hide;
   Self.Picture.Bitmap.LoadFromResourceName(hInstance,
@@ -85,7 +85,7 @@ begin
   inherited;
 end;
 
-procedure TPoker.Process_WM_LBUTTONDOWN(var tmpMsg: TWMLButtonDown);
+procedure TPoker.Process_WM_LBUTTONDOWN(var msg: TWMLButtonDown);
 begin
   if BelongToType = MAIN then
   begin
@@ -94,8 +94,8 @@ begin
       inherited;
       exit;
     end;
-    FOldX := tmpMsg.XPos;
-    FOldY := tmpMsg.YPos;
+    FOldX := msg.XPos;
+    FOldY := msg.YPos;
     FInitiator := true;
     SendMessage(FParentHandle, WM_BEGINMOVE, FPileIndex, FNumber);
     inherited;
@@ -112,8 +112,8 @@ begin
   end
   else if BelongToType = OTHERRIGHT then
   begin
-    FOldX := tmpMsg.XPos;
-    FOldY := tmpMsg.YPos;
+    FOldX := msg.XPos;
+    FOldY := msg.YPos;
     FCanDrag := true;
     Self.BringToFront;
     inherited;
@@ -121,7 +121,7 @@ begin
   inherited;
 end;
 
-procedure TPoker.Process_WM_LBUTTONUP(var tmpMsg: TWMLButtonUP);
+procedure TPoker.Process_WM_LBUTTONUP(var msg: TWMLButtonUP);
 begin
   if BelongToType = MAIN then
   begin
@@ -149,7 +149,7 @@ begin
   inherited;
 end;
 
-procedure TPoker.Process_WM_MOUSEMOVE(var tmpMsg: TWMMouseMove);
+procedure TPoker.Process_WM_MOUSEMOVE(var msg: TWMMouseMove);
 begin
   if BelongToType = MAIN then
   begin
@@ -158,24 +158,24 @@ begin
       inherited;
       exit;
     end;
-    Left := Left + (tmpMsg.XPos - FOldX);
-    Top := Top + (tmpMsg.YPos - FOldY);
-    SendMessage(FParentHandle, WM_MOVING, (tmpMsg.XPos - FOldX),
-      (tmpMsg.YPos - FOldY));
+    Left := Left + (msg.XPos - FOldX);
+    Top := Top + (msg.YPos - FOldY);
+    SendMessage(FParentHandle, WM_MOVING, (msg.XPos - FOldX),
+      (msg.YPos - FOldY));
     inherited;
   end
   else if BelongToType = OTHERRIGHT then
   begin
     if not FCanDrag then
       exit;
-    Left := Left + (tmpMsg.XPos - FOldX);
-    Top := Top + (tmpMsg.YPos - FOldY);
+    Left := Left + (msg.XPos - FOldX);
+    Top := Top + (msg.YPos - FOldY);
     inherited;
   end;
   inherited;
 end;
 
-procedure TPoker.Process_WM_RBUTTONDOWN(var tmpMsg: TWMRButtonDown);
+procedure TPoker.Process_WM_RBUTTONDOWN(var msg: TWMRButtonDown);
 begin
   Beep;
   inherited;

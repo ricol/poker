@@ -23,14 +23,14 @@ type
     procedure SetParentHandle(const Value: Thandle);
     procedure SetBackGroundImage(const Value: TImage);
   public
-    constructor Create(tmpParent: TWinControl; tmpParentHandle: Thandle;
-      tmpPileNumber: integer; tmpPileIndex: integer; tmpTop: integer;
-      tmpLeft: integer);
+    constructor Create(parentControl: TWinControl; parentHandle: Thandle;
+      pileNum: integer; pileIndex: integer; _top: integer;
+      _left: integer);
     destructor Destroy(); override;
     procedure Show;
-    procedure Add(tmpPoker: TPoker);
-    procedure Remove(tmpPoker: TPoker);
-    function GetPoker(tmpNum: integer): TPoker;
+    procedure Add(poker: TPoker);
+    procedure Remove(poker: TPoker);
+    function GetPoker(num: integer): TPoker;
     property PileNumber: integer read FPileNumber write SetPileNumber;
     property PileIndex: integer read FPileIndex write SetPileIndex;
     property Left: integer read FLeft write SetLeft;
@@ -44,7 +44,7 @@ implementation
 
 { TPokerPile }
 
-procedure TGarbagePokerPile.Add(tmpPoker: TPoker);
+procedure TGarbagePokerPile.Add(poker: TPoker);
 begin
   if FPileNumber > MAXPOKER then
   begin
@@ -53,26 +53,26 @@ begin
     exit;
   end;
   inc(FPileNumber);
-  tmpPoker.Left := Self.Left;
-  tmpPoker.Top := Self.Top;
-  tmpPoker.BelongToType := GARBAGE;
-  FPokerArray[FPileNumber] := tmpPoker;
+  poker.Left := Self.Left;
+  poker.Top := Self.Top;
+  poker.BelongToType := GARBAGE;
+  FPokerArray[FPileNumber] := poker;
 end;
 
-constructor TGarbagePokerPile.Create(tmpParent: TWinControl;
-  tmpParentHandle: Thandle; tmpPileNumber: integer; tmpPileIndex: integer;
-  tmpTop: integer; tmpLeft: integer);
+constructor TGarbagePokerPile.Create(parentControl: TWinControl;
+  parentHandle: Thandle; pileNum: integer; pileIndex: integer;
+  _top: integer; _left: integer);
 var
   i: integer;
 begin
   inherited Create;
-  Left := tmpLeft;
-  Top := tmpTop;
-  FPileNumber := tmpPileNumber;
-  FPileIndex := tmpPileIndex;
-  FParentHandle := tmpParentHandle;
-  FBackGroundImage := TImage.Create(tmpParent);
-  FBackGroundImage.Parent := tmpParent;
+  Left := _left;
+  Top := _top;
+  FPileNumber := pileNum;
+  FPileIndex := pileIndex;
+  FParentHandle := parentHandle;
+  FBackGroundImage := TImage.Create(parentControl);
+  FBackGroundImage.Parent := parentControl;
   FBackGroundImage.Picture.Bitmap.LoadFromResourceName(hInstance,
     'BMPPOKEGARBAGEBACKGROUND');
   FBackGroundImage.Hide;
@@ -92,15 +92,15 @@ begin
   inherited;
 end;
 
-function TGarbagePokerPile.GetPoker(tmpNum: integer): TPoker;
+function TGarbagePokerPile.GetPoker(num: integer): TPoker;
 begin
-  if (tmpNum >= 1) and (tmpNum <= FPileNumber) then
-    result := FPokerArray[tmpNum]
+  if (num >= 1) and (num <= FPileNumber) then
+    result := FPokerArray[num]
   else
     result := nil;
 end;
 
-procedure TGarbagePokerPile.Remove(tmpPoker: TPoker);
+procedure TGarbagePokerPile.Remove(poker: TPoker);
 var
   i: integer;
 begin
@@ -110,7 +110,7 @@ begin
       MB_OK or MB_ICONERROR);
     exit;
   end;
-  for i := tmpPoker.Number + 1 to FPileNumber do
+  for i := poker.Number + 1 to FPileNumber do
   begin
     if FPokerArray[i] <> nil then
     begin

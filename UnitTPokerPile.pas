@@ -20,13 +20,13 @@ type
     procedure SetTop(const Value: integer);
     procedure SetParentHandle(const Value: Thandle);
   public
-    constructor Create(tmpParentHandle: Thandle; tmpPileNumber: integer;
-      tmpPileIndex: integer; tmpTop: integer; tmpLeft: integer);
+    constructor Create(parentHandle: Thandle; pileNum: integer;
+      pileIndex: integer; _top: integer; _left: integer);
     destructor Destroy(); override;
     procedure Show;
-    procedure Add(tmpPoker: TPoker);
-    procedure Remove(tmpPoker: TPoker);
-    function GetPoker(tmpNumber: integer): TPoker;
+    procedure Add(poker: TPoker);
+    procedure Remove(poker: TPoker);
+    function GetPoker(num: integer): TPoker;
     property PileNumber: integer read FPileNumber write SetPileNumber;
     property PileIndex: integer read FPileIndex write SetPileIndex;
     property Left: integer read FLeft write SetLeft;
@@ -38,7 +38,7 @@ implementation
 
 { TPokerPile }
 
-procedure TPokerPile.Add(tmpPoker: TPoker);
+procedure TPokerPile.Add(poker: TPoker);
 begin
   if FPileNumber > MAXPOKER then
   begin
@@ -47,16 +47,16 @@ begin
     exit;
   end;
   inc(FPileNumber);
-  tmpPoker.Left := Self.Left;
-  tmpPoker.Top := Self.Top + (FPileNumber - 1) * GMainLenY;
-  tmpPoker.PileIndex := Self.PileIndex;
-  tmpPoker.Number := FPileNumber;
-  tmpPoker.BelongToType := MAIN;
-  FPokerArray[FPileNumber] := tmpPoker;
-  tmpPoker.BringToFront;
+  poker.Left := Self.Left;
+  poker.Top := Self.Top + (FPileNumber - 1) * GMainLenY;
+  poker.PileIndex := Self.PileIndex;
+  poker.Number := FPileNumber;
+  poker.BelongToType := MAIN;
+  FPokerArray[FPileNumber] := poker;
+  poker.BringToFront;
 end;
 
-procedure TPokerPile.Remove(tmpPoker: TPoker);
+procedure TPokerPile.Remove(poker: TPoker);
 var
   i: integer;
 begin
@@ -66,7 +66,7 @@ begin
       MB_OK or MB_ICONERROR);
     exit;
   end;
-  for i := tmpPoker.Number + 1 to FPileNumber do
+  for i := poker.Number + 1 to FPileNumber do
   begin
     if FPokerArray[i] <> nil then
     begin
@@ -78,17 +78,17 @@ begin
   dec(FPileNumber);
 end;
 
-constructor TPokerPile.Create(tmpParentHandle: Thandle; tmpPileNumber: integer;
-  tmpPileIndex: integer; tmpTop: integer; tmpLeft: integer);
+constructor TPokerPile.Create(parentHandle: Thandle; pileNum: integer;
+  pileIndex: integer; _top: integer; _left: integer);
 var
   i: integer;
 begin
   inherited Create;
-  Left := tmpLeft;
-  Top := tmpTop;
-  FPileNumber := tmpPileNumber;
-  FPileIndex := tmpPileIndex;
-  FParentHandle := tmpParentHandle;
+  Left := _left;
+  Top := _top;
+  FPileNumber := pileNum;
+  FPileIndex := pileIndex;
+  FParentHandle := parentHandle;
   for i := 1 to MAXPOKER do
     FPokerArray[i] := nil;
 end;
@@ -103,12 +103,12 @@ begin
   inherited;
 end;
 
-function TPokerPile.GetPoker(tmpNumber: integer): TPoker;
+function TPokerPile.GetPoker(num: integer): TPoker;
 begin
-  if tmpNumber < 1 then
+  if num < 1 then
     result := nil
   else
-    result := FPokerArray[tmpNumber];
+    result := FPokerArray[num];
 end;
 
 procedure TPokerPile.SetLeft(const Value: integer);
