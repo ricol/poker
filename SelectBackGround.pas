@@ -1,10 +1,10 @@
-unit UnitSelectBackGround;
+unit SelectBackGround;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, StdCtrls, UnitCommon;
+  Dialogs, ExtCtrls, StdCtrls, Common;
 
 type
   TFormSelectBackground = class(TForm)

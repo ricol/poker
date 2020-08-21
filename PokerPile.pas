@@ -1,9 +1,9 @@
-unit UnitTPokerPile;
+unit PokerPile;
 
 interface
 
 uses
-  Messages, Windows, SysUtils, UnitCommon, UnitTPoker;
+  Messages, Windows, SysUtils, Common, Poker;
 
 type
   TPokerPile = class

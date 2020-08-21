@@ -2,18 +2,18 @@ program sol_XE5;
 
 uses
   Forms,
-  UnitMain in 'UnitMain.pas' {FormMain},
-  UnitAbout in 'UnitAbout.pas' {FormAboutBox},
-  UnitOption in 'UnitOption.pas' {FormOption},
-  UnitSelectBackGround in 'UnitSelectBackGround.pas' {FormSelectBackground},
-  UnitTPoker in 'UnitTPoker.pas',
-  UnitTPokerRandomArray in 'UnitTPokerRandomArray.pas',
-  UnitCommon in 'UnitCommon.pas',
-  UnitTPokerPile in 'UnitTPokerPile.pas',
-  UnitTGarbagePokerPile in 'UnitTGarbagePokerPile.pas',
-  UnitTOtherLeftPokerPile in 'UnitTOtherLeftPokerPile.pas',
-  UnitTOtherRightPokerPile in 'UnitTOtherRightPokerPile.pas',
-  UnitTColorLabel in 'UnitTColorLabel.pas';
+  fMain in 'fMain.pas' {FormMain},
+  About in 'About.pas' {FormAboutBox},
+  Option in 'Option.pas' {FormOption},
+  SelectBackGround in 'SelectBackGround.pas' {FormSelectBackground},
+  Poker in 'Poker.pas',
+  PokerRandomArray in 'PokerRandomArray.pas',
+  Common in 'Common.pas',
+  PokerPile in 'PokerPile.pas',
+  GarbagePokerPile in 'GarbagePokerPile.pas',
+  OtherLeftPokerPile in 'OtherLeftPokerPile.pas',
+  OtherRightPokerPile in 'OtherRightPokerPile.pas',
+  ColorLabel in 'ColorLabel.pas';
 
 {$R *.res}
 {$R MyResource.RES}

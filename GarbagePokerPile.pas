@@ -1,10 +1,10 @@
-unit UnitTGarbagePokerPile;
+unit GarbagePokerPile;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Menus, ComCtrls, ExtCtrls, UnitCommon, UnitTPoker;
+  Dialogs, Menus, ComCtrls, ExtCtrls, Common, Poker;
 
 type
   TGarbagePokerPile = class

@@ -1,12 +1,12 @@
-unit UnitTOtherRightPokerPile;
+unit OtherLeftPokerPile;
 
 interface
 
 uses
-  Messages, Windows, SysUtils, UnitCommon, UnitTPoker;
+  Messages, Windows, SysUtils, Common, Poker;
 
 type
-  TOtherRightPokerPile = class
+  TOtherLeftPokerPile = class
   private
     FParentHandle: THandle;
     FPokerArray: array [1 .. MAXPOKER] of TPoker;
@@ -35,11 +35,11 @@ implementation
 
 { TOtherLeftPokerPile }
 
-procedure TOtherRightPokerPile.Add(poker: TPoker);
+procedure TOtherLeftPokerPile.Add(poker: TPoker);
 begin
   if FPileNumber > MAXPOKER then
   begin
-    MessageBox(FParentHandle, 'TOtherRightPokerPile.Add Error!', 'ERROR',
+    MessageBox(FParentHandle, 'TOtherLeftPokerPile.Add Error!', 'ERROR',
       MB_OK or MB_ICONERROR);
     exit;
   end;
@@ -47,11 +47,11 @@ begin
   poker.Left := Self.Left;
   poker.Top := Self.Top;
   poker.Number := FPileNumber;
-  poker.BelongToType := OTHERRIGHT;
+  poker.BelongToType := OTHERLEFT;
   FPokerArray[FPileNumber] := poker;
 end;
 
-constructor TOtherRightPokerPile.Create(parentHandle: THandle;
+constructor TOtherLeftPokerPile.Create(parentHandle: THandle;
   pileNum: integer; _top: integer; _left: integer);
 begin
   FParentHandle := parentHandle;
@@ -60,7 +60,7 @@ begin
   FTop := _top;
 end;
 
-destructor TOtherRightPokerPile.Destroy;
+destructor TOtherLeftPokerPile.Destroy;
 var
   i: integer;
 begin
@@ -70,7 +70,7 @@ begin
   inherited;
 end;
 
-function TOtherRightPokerPile.GetPoker(num: integer): TPoker;
+function TOtherLeftPokerPile.GetPoker(num: integer): TPoker;
 begin
   if (num >= 1) and (num <= FPileNumber) then
     result := FPokerArray[num]
@@ -78,28 +78,18 @@ begin
     result := nil;
 end;
 
-procedure TOtherRightPokerPile.Remove(poker: TPoker);
-var
-  i: integer;
+procedure TOtherLeftPokerPile.Remove(poker: TPoker);
 begin
   if FPileNumber < 1 then
   begin
-    MessageBox(FParentHandle, 'TOtherRightPokerPile.Remove Error!', 'ERROR',
+    MessageBox(FParentHandle, 'TOtherLeftPokerPile.Remove Error!', 'ERROR',
       MB_OK or MB_ICONERROR);
     exit;
-  end;
-  for i := poker.Number + 1 to FPileNumber do
-  begin
-    if FPokerArray[i] <> nil then
-    begin
-      FPokerArray[i - 1] := FPokerArray[i];
-      FPokerArray[i - 1].Number := FPokerArray[i - 1].Number - 1;
-    end;
   end;
   dec(FPileNumber);
 end;
 
-procedure TOtherRightPokerPile.Show;
+procedure TOtherLeftPokerPile.Show;
 var
   i: integer;
 begin
@@ -111,7 +101,7 @@ begin
   end;
 end;
 
-procedure TOtherRightPokerPile.SetLeft(const Value: integer);
+procedure TOtherLeftPokerPile.SetLeft(const Value: integer);
 var
   i: integer;
 begin
@@ -120,17 +110,17 @@ begin
     FPokerArray[i].Left := FLeft;
 end;
 
-procedure TOtherRightPokerPile.SetParentHandle(const Value: THandle);
+procedure TOtherLeftPokerPile.SetParentHandle(const Value: THandle);
 begin
   FParentHandle := Value;
 end;
 
-procedure TOtherRightPokerPile.SetPileNumber(const Value: integer);
+procedure TOtherLeftPokerPile.SetPileNumber(const Value: integer);
 begin
   FPileNumber := Value;
 end;
 
-procedure TOtherRightPokerPile.SetTop(const Value: integer);
+procedure TOtherLeftPokerPile.SetTop(const Value: integer);
 begin
   FTop := Value;
 end;

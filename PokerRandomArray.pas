@@ -1,9 +1,9 @@
-unit UnitTPokerRandomArray;
+unit PokerRandomArray;
 
 interface
 
 uses
-  Messages, Windows, UnitCommon;
+  Messages, Windows, Common;
 
 type
   TPokeNum = record

@@ -1,10 +1,10 @@
-unit UnitTPoker;
+unit Poker;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Menus, ComCtrls, ExtCtrls, UnitCommon;
+  Dialogs, Menus, ComCtrls, ExtCtrls, Common;
 
 type
   TPoker = class(TImage)

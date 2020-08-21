@@ -1,4 +1,4 @@
-unit UnitAbout;
+unit About;
 
 interface
 

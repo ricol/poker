@@ -1,4 +1,4 @@
-unit UnitTColorLabel;
+unit ColorLabel;
 
 interface
 
