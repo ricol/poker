@@ -363,6 +363,7 @@ var
   poker: TPoker;
   i: Integer;
 begin
+  if GOtherRightPokerPile = nil then exit;
   poker := GOtherRightPokerPile.GetPoker(GOtherRightPokerPile.PileNumber);
   if CanDelete(poker) then
   begin
@@ -805,6 +806,7 @@ procedure TFormMain.Process_WM_OTHERLEFTCLICK(var msg: TMessage);
 var
   poker: TPoker;
 begin
+  if GOtherLeftPokerPile = nil then exit;
   poker := GOtherLeftPokerPile.GetPoker(GOtherLeftPokerPile.PileNumber);
   if poker <> nil then
   begin
