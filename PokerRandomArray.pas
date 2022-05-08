@@ -75,11 +75,11 @@ end;
 procedure TPokeArray.SwapPokeNum(var pokeNum1: TPokeNum;
   var pokeNum2: TPokeNum);
 var
-  tmpPokeNum: TPokeNum;
+  tmp: TPokeNum;
 begin
-  tmpPokeNum := pokeNum1;
+  tmp := pokeNum1;
   pokeNum1 := pokeNum2;
-  pokeNum2 := tmpPokeNum;
+  pokeNum2 := tmp;
 end;
 
 end.

@@ -51,8 +51,7 @@ type
   private
     FGo: Boolean;
     FMyThread: TMyThread;
-    procedure ProcessMessage_WM_MBUTTONDOWN(var msg: TWMMButtonDown);
-      message WM_MBUTTONDOWN;
+    procedure ProcessMessage_WM_MBUTTONDOWN(var msg: TWMMButtonDown); message WM_MBUTTONDOWN;
     procedure SetGo(const Value: Boolean);
   published
   public
@@ -85,15 +84,18 @@ begin
   Font.Color := RGB(255, 0, 0);
   Self.Transparent := true;
   FMyThread := TMyThread.Create(true);
-  FMyThread.FColorLabel := Pointer(Self);
-  FMyThread.Num := NUMGREEN;
-  FMyThread.Red := 255;
-  FMyThread.Green := 0;
-  FMyThread.Blue := 0;
-  FMyThread.R := DECREASE;
-  FMyThread.G := INCREASE;
-  FMyThread.B := INCREASE;
-  FMyThread.Speed := 20;
+  with FMyThread do
+  begin
+    FColorLabel := Pointer(Self);
+    Num := NUMGREEN;
+    Red := 255;
+    Green := 0;
+    Blue := 0;
+    R := DECREASE;
+    G := INCREASE;
+    B := INCREASE;
+    Speed := 20;
+  end;
 end;
 
 destructor TColorLabel.Destroy;
@@ -109,7 +111,7 @@ var
   s: string;
 begin
   s := Self.Caption;
-  if msg.Msg = WM_MBUTTONDOWN then
+  if msg.msg = WM_MBUTTONDOWN then
   begin
     Beep;
     s := InputBox('输入', '请输入想要显示的信息：', s);

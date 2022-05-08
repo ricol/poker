@@ -20,53 +20,53 @@ type
     procedure SetTop(const Value: integer);
     procedure SetParentHandle(const Value: Thandle);
   public
-    constructor Create(parentHandle: Thandle; pileNum: integer;
-      pileIndex: integer; _top: integer; _left: integer);
+    constructor Create(parentHandle: Thandle; pileNum: integer; pileIndex: integer; _top: integer; _left: integer);
     destructor Destroy(); override;
     procedure Show;
-    procedure Add(poker: TPoker);
-    procedure Remove(poker: TPoker);
+    procedure Add(Poker: TPoker);
+    procedure Remove(Poker: TPoker);
     function GetPoker(num: integer): TPoker;
     property PileNumber: integer read FPileNumber write SetPileNumber;
-    property PileIndex: integer read FPileIndex write SetPileIndex;
+    property pileIndex: integer read FPileIndex write SetPileIndex;
     property Left: integer read FLeft write SetLeft;
     property Top: integer read FTop write SetTop;
-    property ParentHandle: Thandle read FParentHandle write SetParentHandle;
+    property parentHandle: Thandle read FParentHandle write SetParentHandle;
   end;
 
 implementation
 
 { TPokerPile }
 
-procedure TPokerPile.Add(poker: TPoker);
+procedure TPokerPile.Add(Poker: TPoker);
 begin
   if FPileNumber > MAXPOKER then
   begin
-    MessageBox(FParentHandle, 'TPokerPile.Remove Error!', 'ERROR',
-      MB_OK or MB_ICONERROR);
+    MessageBox(FParentHandle, 'TPokerPile.Remove Error!', 'ERROR', MB_OK or MB_ICONERROR);
     exit;
   end;
   inc(FPileNumber);
-  poker.Left := Self.Left;
-  poker.Top := Self.Top + (FPileNumber - 1) * GMainLenY;
-  poker.PileIndex := Self.PileIndex;
-  poker.Number := FPileNumber;
-  poker.BelongToType := MAIN;
-  FPokerArray[FPileNumber] := poker;
-  poker.BringToFront;
+  with Poker do
+  begin
+    Left := Self.Left;
+    Top := Self.Top + (FPileNumber - 1) * GMainLenY;
+    pileIndex := Self.pileIndex;
+    Number := FPileNumber;
+    BelongToType := MAIN;
+    FPokerArray[FPileNumber] := Poker;
+    BringToFront;
+  end;
 end;
 
-procedure TPokerPile.Remove(poker: TPoker);
+procedure TPokerPile.Remove(Poker: TPoker);
 var
   i: integer;
 begin
   if FPileNumber < 1 then
   begin
-    MessageBox(FParentHandle, 'TPokerPile.Remove Error!', 'ERROR',
-      MB_OK or MB_ICONERROR);
+    MessageBox(FParentHandle, 'TPokerPile.Remove Error!', 'ERROR', MB_OK or MB_ICONERROR);
     exit;
   end;
-  for i := poker.Number + 1 to FPileNumber do
+  for i := Poker.Number + 1 to FPileNumber do
   begin
     if FPokerArray[i] <> nil then
     begin
@@ -78,8 +78,7 @@ begin
   dec(FPileNumber);
 end;
 
-constructor TPokerPile.Create(parentHandle: Thandle; pileNum: integer;
-  pileIndex: integer; _top: integer; _left: integer);
+constructor TPokerPile.Create(parentHandle: Thandle; pileNum: integer; pileIndex: integer; _top: integer; _left: integer);
 var
   i: integer;
 begin

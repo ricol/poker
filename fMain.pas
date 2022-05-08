@@ -39,8 +39,7 @@ type
     procedure FormResize(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure MenuGameCloseClick(Sender: TObject);
-    procedure FormMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+    procedure FormMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure Timer1Timer(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure MenuGameAutoClick(Sender: TObject);
@@ -52,14 +51,11 @@ type
     procedure Process_WM_BEGINMOVE(var msg: TMessage); message WM_BEGINMOVE;
     procedure Process_WM_MOVING(var msg: TMessage); message WM_MOVING;
     procedure Process_WM_ENDMOVE(var msg: TMessage); message WM_ENDMOVE;
-    procedure Process_WM_OTHERLEFTCLICK(var msg: TMessage);
-      message WM_OTHERLEFTCLICK;
-    procedure Process_WM_OTHERLEFTRESTART(var msg: TMessage);
-      message WM_OTHERLEFTRESTART;
-    procedure Process_WM_OTHERRIGHTENDMOVE(var msg: TMessage);
-      message WM_OTHERRIGHTENDMOVE;
+    procedure Process_WM_OTHERLEFTCLICK(var msg: TMessage); message WM_OTHERLEFTCLICK;
+    procedure Process_WM_OTHERLEFTRESTART(var msg: TMessage); message WM_OTHERLEFTRESTART;
+    procedure Process_WM_OTHERRIGHTENDMOVE(var msg: TMessage); message WM_OTHERRIGHTENDMOVE;
     function PokerMatchPoker(pokerUp, pokerDown: TPoker): boolean;
-    function CanDelete(poker: TPoker): boolean;
+    function CanDelete(Poker: TPoker): boolean;
     function IsInGarbage(tmpIndex, tmpNum: Integer): boolean;
     function Check(): boolean;
     { Private declarations }
@@ -117,37 +113,35 @@ begin
     end;
 end;
 
-function TFormMain.CanDelete(poker: TPoker): boolean;
+function TFormMain.CanDelete(Poker: TPoker): boolean;
 var
   pokers: array [1 .. 4] of TPoker;
   i: Integer;
 begin
   result := false;
-  if poker = nil then
+  if Poker = nil then
     exit;
-  if poker.X = 1 then
+  if Poker.X = 1 then
   begin
     result := true;
     exit;
   end;
   for i := 1 to 4 do
-    pokers[i] := GGarbagePokerPile[i].GetPoker
-      (GGarbagePokerPile[i].PileNumber);
-  if poker.Y = 1 then
+    pokers[i] := GGarbagePokerPile[i].GetPoker(GGarbagePokerPile[i].PileNumber);
+  if Poker.Y = 1 then
   begin
     if pokers[1] <> nil then
     begin
-      if poker.X = pokers[1].X + 1 then
+      if Poker.X = pokers[1].X + 1 then
       begin
-        if not IsInGarbage(4, poker.X) then
+        if not IsInGarbage(4, Poker.X) then
         begin
           result := true;
           exit;
         end
         else
         begin
-          if IsInGarbage(2, poker.X - 1) and IsInGarbage(3, poker.X - 1)
-          then
+          if IsInGarbage(2, Poker.X - 1) and IsInGarbage(3, Poker.X - 1) then
           begin
             result := true;
             exit;
@@ -166,21 +160,20 @@ begin
       exit;
     end;
   end
-  else if poker.Y = 2 then
+  else if Poker.Y = 2 then
   begin
     if pokers[2] <> nil then
     begin
-      if poker.X = pokers[2].X + 1 then
+      if Poker.X = pokers[2].X + 1 then
       begin
-        if not IsInGarbage(3, poker.X) then
+        if not IsInGarbage(3, Poker.X) then
         begin
           result := true;
           exit;
         end
         else
         begin
-          if IsInGarbage(1, poker.X - 1) and IsInGarbage(4, poker.X - 1)
-          then
+          if IsInGarbage(1, Poker.X - 1) and IsInGarbage(4, Poker.X - 1) then
           begin
             result := true;
             exit;
@@ -199,21 +192,20 @@ begin
       exit;
     end;
   end
-  else if poker.Y = 3 then
+  else if Poker.Y = 3 then
   begin
     if pokers[3] <> nil then
     begin
-      if poker.X = pokers[3].X + 1 then
+      if Poker.X = pokers[3].X + 1 then
       begin
-        if not IsInGarbage(2, poker.X) then
+        if not IsInGarbage(2, Poker.X) then
         begin
           result := true;
           exit;
         end
         else
         begin
-          if IsInGarbage(1, poker.X - 1) and IsInGarbage(4, poker.X - 1)
-          then
+          if IsInGarbage(1, Poker.X - 1) and IsInGarbage(4, Poker.X - 1) then
           begin
             result := true;
             exit;
@@ -232,21 +224,20 @@ begin
       exit;
     end;
   end
-  else if poker.Y = 4 then
+  else if Poker.Y = 4 then
   begin
     if pokers[4] <> nil then
     begin
-      if poker.X = pokers[4].X + 1 then
+      if Poker.X = pokers[4].X + 1 then
       begin
-        if not IsInGarbage(1, poker.X) then
+        if not IsInGarbage(1, Poker.X) then
         begin
           result := true;
           exit;
         end
         else
         begin
-          if IsInGarbage(2, poker.X - 1) and IsInGarbage(3, poker.X - 1)
-          then
+          if IsInGarbage(2, Poker.X - 1) and IsInGarbage(3, Poker.X - 1) then
           begin
             result := true;
             exit;
@@ -272,8 +263,7 @@ var
   i: Integer;
 begin
   result := true;
-  if (GOtherLeftPokerPile.PileNumber >= 1) or
-    (GOtherRightPokerPile.PileNumber >= 1) then
+  if (GOtherLeftPokerPile.PileNumber >= 1) or (GOtherRightPokerPile.PileNumber >= 1) then
   begin
     result := false;
     exit;
@@ -299,8 +289,7 @@ begin
   GGameRunning := false;
 end;
 
-procedure TFormMain.FormKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TFormMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = VK_F2 then
     MenuGameStartClick(Sender)
@@ -320,8 +309,7 @@ begin
   end;
 end;
 
-procedure TFormMain.FormMouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
+procedure TFormMain.FormMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   if Button = mbRight then
     GameCheck();
@@ -360,40 +348,41 @@ end;
 
 procedure TFormMain.GameCheck;
 var
-  poker: TPoker;
+  Poker: TPoker;
   i: Integer;
 begin
-  if GOtherRightPokerPile = nil then exit;
-  poker := GOtherRightPokerPile.GetPoker(GOtherRightPokerPile.PileNumber);
-  if CanDelete(poker) then
+  if GOtherRightPokerPile = nil then
+    exit;
+  Poker := GOtherRightPokerPile.GetPoker(GOtherRightPokerPile.PileNumber);
+  if CanDelete(Poker) then
   begin
     OutputDebugString(PChar(Format('左上角扑克可以删除', [])));
     if not GAuto then
       exit;
-    GOtherRightPokerPile.Remove(poker);
-    GGarbagePokerPile[poker.Y].Add(poker);
-    poker.BringToFront;
+    GOtherRightPokerPile.Remove(Poker);
+    GGarbagePokerPile[Poker.Y].Add(Poker);
+    Poker.BringToFront;
     GOtherRightPokerPile.Show;
-    GGarbagePokerPile[poker.Y].Show;
+    GGarbagePokerPile[Poker.Y].Show;
     inc(GScore, 10);
     StatusBar1.Panels[1].Text := IntToStr(GScore);
     GameCheck;
   end;
   for i := 1 to 7 do
   begin
-    poker := GPokerPile[i].GetPoker(GPokerPile[i].PileNumber);
-    if CanDelete(poker) then
+    Poker := GPokerPile[i].GetPoker(GPokerPile[i].PileNumber);
+    if CanDelete(Poker) then
     begin
-      OutputDebugString(PChar(Format('Index = %d可以删除', [poker.PileIndex])));
+      OutputDebugString(PChar(Format('Index = %d可以删除', [Poker.PileIndex])));
       if not GAuto then
         exit;
-      GPokerPile[i].Remove(poker);
+      GPokerPile[i].Remove(Poker);
       if GPokerPile[i].PileNumber >= 1 then
         GPokerPile[i].GetPoker(GPokerPile[i].PileNumber).Flag := true;
-      GGarbagePokerPile[poker.Y].Add(poker);
-      poker.BringToFront;
+      GGarbagePokerPile[Poker.Y].Add(Poker);
+      Poker.BringToFront;
       GPokerPile[i].Show;
-      GGarbagePokerPile[poker.Y].Show;
+      GGarbagePokerPile[Poker.Y].Show;
       inc(GScore, 10);
       StatusBar1.Panels[1].Text := IntToStr(GScore);
       GameCheck;
@@ -411,14 +400,17 @@ begin
     if GColorLabel <> nil then
       exit;
     GColorLabel := TColorLabel.Create(Self);
-    GColorLabel.Parent := Self;
-    GColorLabel.Caption := '你赢了！';
-    GColorLabel.Font.Size := 50;
-    GColorLabel.Font.Style := [fsBold];
-    GColorLabel.Font.Name := '宋体';
-    GColorLabel.AdjustPlace;
-    GColorLabel.Show;
-    GColorLabel.Go := true;
+    with GColorLabel do
+    begin
+      Parent := Self;
+      Caption := '你赢了！';
+      Font.Size := 50;
+      Font.Style := [fsBold];
+      Font.Name := '宋体';
+      AdjustPlace;
+      Show;
+      Go := true;
+    end;
     Timer1.Enabled := false;
   end;
 end;
@@ -446,11 +438,12 @@ end;
 
 procedure TFormMain.MenuGameBackGroundClick(Sender: TObject);
 begin
-  FormSelectBackground.Left := Self.Left + Self.Width div 2 -
-    FormSelectBackground.Width div 2;
-  FormSelectBackground.Top := Self.Top + Self.Height div 2 -
-    FormSelectBackground.Height div 2;
-  FormSelectBackground.ShowModal;
+  with FormSelectBackground do
+  begin
+    Left := Self.Left + Self.Width div 2 - Width div 2;
+    Top := Self.Top + Self.Height div 2 - Height div 2;
+    ShowModal;
+  end;
   AllPokerRefresh();
 end;
 
@@ -472,52 +465,62 @@ end;
 
 procedure TFormMain.MenuGameOptionClick(Sender: TObject);
 begin
-  FormOption.Left := Self.Left + Self.Width div 2 - FormOption.Width div 2;
-  FormOption.Top := Self.Top + Self.Height div 2 - FormOption.Height div 2;
-  FormOption.ShowModal;
+  with FormOption do
+  begin
+    Left := Self.Left + Self.Width div 2 - Width div 2;
+    Top := Self.Top + Self.Height div 2 - Height div 2;
+    ShowModal;
+  end;
 end;
 
 procedure TFormMain.MenuGameStartClick(Sender: TObject);
 var
   i: Integer;
   random: TPokeArray;
-  poker: TPoker;
+  Poker: TPoker;
   j: Integer;
   pokeNum: TPokeNum;
 begin
   ObjectFree();
   GGameRunning := false;
   random := TPokeArray.Create(Self.Handle);
-  GOtherLeftPokerPile := TOtherLeftPokerPile.Create(Self.Handle, 0,
-    GOtherLeftStartY, GOtherLeftStartX);
+  GOtherLeftPokerPile := TOtherLeftPokerPile.Create(Self.Handle, 0, GOtherLeftStartY, GOtherLeftStartX);
   GOtherLeftPokerPile.ParentHandle := Self.Handle;
   GOtherLeftBackGround := TPoker.Create(Self, Self.Handle, true, 0, 0, 0, 0);
-  GOtherLeftBackGround.Parent := Self;
-  GOtherLeftBackGround.Picture.Bitmap.LoadFromResourceName(hInstance,
-    'BMPPOKEOTHERLEFTBACKGROUND');
-  GOtherLeftBackGround.BelongToType := OTHERLEFTBACKGROUND;
-  GOtherLeftBackGround.Left := GOtherLeftPokerPile.Left;
-  GOtherLeftBackGround.Top := GOtherLeftPokerPile.Top;
-  GOtherLeftBackGround.Width := CONSTWIDTH;
-  GOtherLeftBackGround.Height := CONSTHEIGHT;
-  GOtherLeftBackGround.Hide;
+  with GOtherLeftBackGround do
+  begin
+    Parent := Self;
+    Picture.Bitmap.LoadFromResourceName(hInstance, 'BMPPOKEOTHERLEFTBACKGROUND');
+    BelongToType := OTHERLEFTBACKGROUND;
+    Left := GOtherLeftPokerPile.Left;
+    Top := GOtherLeftPokerPile.Top;
+    Width := CONSTWIDTH;
+    Height := CONSTHEIGHT;
+    Hide;
+  end;
   for i := 1 to 24 do
   begin
-    poker := TPoker.Create(Self, Self.Handle, false, 0, 0, 0, 0);
-    poker.Parent := Self;
-    poker.BackGround := GPokerBackGround;
-    pokeNum := random.GetPoke;
-    poker.X := pokeNum.X;
-    poker.Y := pokeNum.Y;
-    poker.Flag := false;
-    poker.BelongToType := OTHERLEFT;
-    GOtherLeftPokerPile.Add(poker);
+    Poker := TPoker.Create(Self, Self.Handle, false, 0, 0, 0, 0);
+    with Poker do
+    begin
+      Parent := Self;
+      BackGround := GPokerBackGround;
+      pokeNum := random.GetPoke;
+      X := pokeNum.X;
+      Y := pokeNum.Y;
+      Flag := false;
+      BelongToType := OTHERLEFT;
+    end;
+    GOtherLeftPokerPile.Add(Poker);
   end;
   GOtherLeftPokerPile.Show;
   GOtherRightPokerPile := TOtherRightPokerPile.Create(Self.Handle, 0, 0, 0);
-  GOtherRightPokerPile.Left := GMainLenX + GMainStartX;
-  GOtherRightPokerPile.Top := GOtherRightStartY;
-  GOtherRightPokerPile.Show;
+  with GOtherRightPokerPile do
+  begin
+    Left := GMainLenX + GMainStartX;
+    Top := GOtherRightStartY;
+    Show;
+  end;
   for i := 1 to 7 do
   begin
     GPokerPile[i] := TPokerPile.Create(Self.Handle, 0, i, 0, 0);
@@ -525,28 +528,33 @@ begin
     GPokerPile[i].Top := GMainStartY;
     for j := 1 to i do
     begin
-      poker := TPoker.Create(Self, Self.Handle, false, 0, 0, 0, 0);
-      poker.Parent := Self;
-      poker.BackGround := GPokerBackGround;
-      poker.PileIndex := i;
-      poker.Number := j;
-      pokeNum := random.GetPoke;
-      poker.X := pokeNum.X;
-      poker.Y := pokeNum.Y;
-      poker.BelongToType := MAIN;
-      if j = i then
-        poker.Flag := true;
-      GPokerPile[i].Add(poker);
+      Poker := TPoker.Create(Self, Self.Handle, false, 0, 0, 0, 0);
+      with Poker do
+      begin
+        Parent := Self;
+        BackGround := GPokerBackGround;
+        PileIndex := i;
+        Number := j;
+        pokeNum := random.GetPoke;
+        X := pokeNum.X;
+        Y := pokeNum.Y;
+        BelongToType := MAIN;
+        if j = i then
+          Flag := true;
+      end;
+      GPokerPile[i].Add(Poker);
     end;
     GPokerPile[i].Show;
   end;
   for i := 1 to 4 do
   begin
-    GGarbagePokerPile[i] := TGarbagePokerPile.Create(Self, Self.Handle,
-      0, i, 0, 0);
-    GGarbagePokerPile[i].Left := GGarbageStartX + (i - 1) * GGarbageLenX;
-    GGarbagePokerPile[i].Top := GGarBageStartY;
-    GGarbagePokerPile[i].Show;
+    GGarbagePokerPile[i] := TGarbagePokerPile.Create(Self, Self.Handle, 0, i, 0, 0);
+    with GGarbagePokerPile[i] do
+    begin
+      Left := GGarbageStartX + (i - 1) * GGarbageLenX;
+      Top := GGarBageStartY;
+      Show;
+    end;
   end;
   GGameRunning := true;
   random.Free;
@@ -560,9 +568,12 @@ end;
 
 procedure TFormMain.MenuHelpAboutClick(Sender: TObject);
 begin
-  FormAboutBox.Left := Self.Left + Self.Width div 2 - FormAboutBox.Width div 2;
-  FormAboutBox.Top := Self.Top + Self.Height div 2 - FormAboutBox.Height div 2;
-  FormAboutBox.ShowModal;
+  with FormAboutBox do
+  begin
+    Left := Self.Left + Self.Width div 2 - Width div 2;
+    Top := Self.Top + Self.Height div 2 - Height div 2;
+    ShowModal;
+  end;
 end;
 
 procedure TFormMain.ObjectFree;
@@ -618,20 +629,19 @@ end;
 
 procedure TFormMain.Process_WM_BEGINMOVE(var msg: TMessage);
 var
-  pileIndex, num, i, maxNum: Integer;
+  PileIndex, num, i, maxNum: Integer;
   ok: boolean;
 begin
-  pileIndex := msg.WParam;
+  PileIndex := msg.WParam;
   num := msg.LParam;
-  maxNum := GPokerPile[pileIndex].PileNumber;
+  maxNum := GPokerPile[PileIndex].PileNumber;
   ok := true;
-  GPileIndex := pileIndex;
+  GPileIndex := PileIndex;
   GNumber := num;
   GMaxNumber := maxNum;
   for i := num to maxNum - 1 do
   begin
-    if PokerMatchPoker(GPokerPile[pileIndex].GetPoker(i),
-      GPokerPile[pileIndex].GetPoker(i + 1)) = false then
+    if PokerMatchPoker(GPokerPile[PileIndex].GetPoker(i), GPokerPile[PileIndex].GetPoker(i + 1)) = false then
       ok := false;
   end;
   if not ok then
@@ -640,87 +650,79 @@ begin
     inherited;
     exit;
   end;
-  GPokerPile[pileIndex].GetPoker(num).CanDrag := true;
+  GPokerPile[PileIndex].GetPoker(num).CanDrag := true;
   inherited;
 end;
 
 procedure TFormMain.Process_WM_ENDMOVE(var msg: TMessage);
 var
-  pileIndex, num, centerX, centerY, targetX, targetY,
-    targetIndex: Integer;
+  PileIndex, num, centerX, centerY, targetX, targetY, targetIndex: Integer;
   i: Integer;
-  targetPoker, sourcePoker, poker: TPoker;
+  targetPoker, sourcePoker, Poker: TPoker;
 begin
-  pileIndex := msg.WParam;
+  PileIndex := msg.WParam;
   num := msg.LParam;
-  centerX := GPokerPile[pileIndex].GetPoker(num).Left +
-    CONSTWIDTH div 2;
-  centerY := GPokerPile[pileIndex].GetPoker(num).Top +
-    CONSTHEIGHT div 2;
+  centerX := GPokerPile[PileIndex].GetPoker(num).Left + CONSTWIDTH div 2;
+  centerY := GPokerPile[PileIndex].GetPoker(num).Top + CONSTHEIGHT div 2;
   targetIndex := 0;
   for i := 1 to 7 do
   begin
     targetX := GPokerPile[i].Left;
     targetY := GPokerPile[i].Top;
-    if (centerX >= targetX) and (centerX <= targetX + CONSTWIDTH)
-      and (centerY >= targetY) and
-      (centerY <= targetY + 10 * CONSTHEIGHT) then
+    if (centerX >= targetX) and (centerX <= targetX + CONSTWIDTH) and (centerY >= targetY) and (centerY <= targetY + 10 * CONSTHEIGHT) then
     begin
       targetIndex := i;
     end;
   end;
   if targetIndex <> 0 then
   begin
-    targetPoker := GPokerPile[targetIndex]
-      .GetPoker(GPokerPile[targetIndex].PileNumber);
-    sourcePoker := GPokerPile[pileIndex].GetPoker(num);
-    GMaxNumber := GPokerPile[pileIndex].PileNumber;
+    targetPoker := GPokerPile[targetIndex].GetPoker(GPokerPile[targetIndex].PileNumber);
+    sourcePoker := GPokerPile[PileIndex].GetPoker(num);
+    GMaxNumber := GPokerPile[PileIndex].PileNumber;
     if targetPoker = nil then
     begin
       if sourcePoker.X = 13 then
       begin
         for i := num to GMaxNumber do
         begin
-          GMaxNumber := GPokerPile[pileIndex].PileNumber;
-          poker := GPokerPile[pileIndex].GetPoker(num);
-          GPokerPile[pileIndex].Remove(poker);
-          GPokerPile[targetIndex].Add(poker);
-          poker.BringToFront;
+          GMaxNumber := GPokerPile[PileIndex].PileNumber;
+          Poker := GPokerPile[PileIndex].GetPoker(num);
+          GPokerPile[PileIndex].Remove(Poker);
+          GPokerPile[targetIndex].Add(Poker);
+          Poker.BringToFront;
         end;
-        poker := GPokerPile[pileIndex].GetPoker
-          (GPokerPile[pileIndex].PileNumber);
-        if poker <> nil then
-          poker.Flag := true;
-        GPokerPile[pileIndex].Show;
+        Poker := GPokerPile[PileIndex].GetPoker(GPokerPile[PileIndex].PileNumber);
+        if Poker <> nil then
+          Poker.Flag := true;
+        GPokerPile[PileIndex].Show;
         GPokerPile[targetIndex].Show;
         GameCheck();
         GameComplete;
       end
       else
-        GPokerPile[pileIndex].Show;
+        GPokerPile[PileIndex].Show;
     end
     else if PokerMatchPoker(targetPoker, sourcePoker) then
     begin
       for i := num to GMaxNumber do
       begin
-        GMaxNumber := GPokerPile[pileIndex].PileNumber;
-        poker := GPokerPile[pileIndex].GetPoker(num);
-        GPokerPile[pileIndex].Remove(poker);
-        GPokerPile[targetIndex].Add(poker);
-        poker.BringToFront;
+        GMaxNumber := GPokerPile[PileIndex].PileNumber;
+        Poker := GPokerPile[PileIndex].GetPoker(num);
+        GPokerPile[PileIndex].Remove(Poker);
+        GPokerPile[targetIndex].Add(Poker);
+        Poker.BringToFront;
       end;
-      poker := GPokerPile[pileIndex].GetPoker
-        (GPokerPile[pileIndex].PileNumber);
-      if poker <> nil then
-        poker.Flag := true;
-      GPokerPile[pileIndex].Show;
+      Poker := GPokerPile[PileIndex].GetPoker(GPokerPile[PileIndex].PileNumber);
+      if Poker <> nil then
+        Poker.Flag := true;
+      GPokerPile[PileIndex].Show;
       GPokerPile[targetIndex].Show;
       GameCheck();
       GameComplete;
     end
     else
     begin
-      GPokerPile[pileIndex].Show;
+      GPokerPile[PileIndex].Show;
     end;
   end
   else
@@ -729,58 +731,52 @@ begin
     begin
       targetX := GGarbagePokerPile[i].Left;
       targetY := GGarbagePokerPile[i].Top;
-      if (centerX >= targetX) and (centerX <= targetX + CONSTWIDTH)
-        and (centerY >= targetY) and
-        (centerY <= targetY + CONSTHEIGHT) then
+      if (centerX >= targetX) and (centerX <= targetX + CONSTWIDTH) and (centerY >= targetY) and (centerY <= targetY + CONSTHEIGHT) then
       begin
         targetIndex := i;
       end;
     end;
-    poker := GPokerPile[pileIndex].GetPoker(num);
+    Poker := GPokerPile[PileIndex].GetPoker(num);
     if targetIndex <> 0 then
     begin
-      targetPoker := GGarbagePokerPile[targetIndex]
-        .GetPoker(GGarbagePokerPile[targetIndex].PileNumber);
-      sourcePoker := poker;
+      targetPoker := GGarbagePokerPile[targetIndex].GetPoker(GGarbagePokerPile[targetIndex].PileNumber);
+      sourcePoker := Poker;
       if targetPoker = nil then
       begin
         if sourcePoker.X = 1 then
         begin
-          GPokerPile[pileIndex].Remove(poker);
-          GGarbagePokerPile[poker.Y].Add(poker);
-          poker.BringToFront;
-          GGarbagePokerPile[poker.Y].Show;
-          poker := GPokerPile[pileIndex]
-            .GetPoker(GPokerPile[pileIndex].PileNumber);
-          if poker <> nil then
-            poker.Flag := true;
-          GPokerPile[pileIndex].Show;
+          GPokerPile[PileIndex].Remove(Poker);
+          GGarbagePokerPile[Poker.Y].Add(Poker);
+          Poker.BringToFront;
+          GGarbagePokerPile[Poker.Y].Show;
+          Poker := GPokerPile[PileIndex].GetPoker(GPokerPile[PileIndex].PileNumber);
+          if Poker <> nil then
+            Poker.Flag := true;
+          GPokerPile[PileIndex].Show;
           GameCheck();
           GameComplete;
         end
         else
-          GPokerPile[pileIndex].Show;
+          GPokerPile[PileIndex].Show;
       end
-      else if (sourcePoker.Y = targetPoker.Y) and
-        (sourcePoker.X = targetPoker.X + 1) then
+      else if (sourcePoker.Y = targetPoker.Y) and (sourcePoker.X = targetPoker.X + 1) then
       begin
-        GPokerPile[pileIndex].Remove(poker);
-        GGarbagePokerPile[targetIndex].Add(poker);
-        poker.BringToFront;
+        GPokerPile[PileIndex].Remove(Poker);
+        GGarbagePokerPile[targetIndex].Add(Poker);
+        Poker.BringToFront;
         GGarbagePokerPile[targetIndex].Show;
-        poker := GPokerPile[pileIndex].GetPoker
-          (GPokerPile[pileIndex].PileNumber);
-        if poker <> nil then
-          poker.Flag := true;
-        GPokerPile[pileIndex].Show;
+        Poker := GPokerPile[PileIndex].GetPoker(GPokerPile[PileIndex].PileNumber);
+        if Poker <> nil then
+          Poker.Flag := true;
+        GPokerPile[PileIndex].Show;
         GameCheck();
         GameComplete;
       end
       else
-        GPokerPile[pileIndex].Show;
+        GPokerPile[PileIndex].Show;
     end
     else
-      GPokerPile[pileIndex].Show;
+      GPokerPile[PileIndex].Show;
   end;
   inherited;
 end;
@@ -788,35 +784,36 @@ end;
 procedure TFormMain.Process_WM_MOVING(var msg: TMessage);
 var
   i: Integer;
-  poker: TPoker;
+  Poker: TPoker;
 begin
   for i := GNumber to GMaxNumber do
   begin
-    poker := GPokerPile[GPileIndex].GetPoker(i);
-    poker.BringToFront;
-    if poker.Initiator then
+    Poker := GPokerPile[GPileIndex].GetPoker(i);
+    Poker.BringToFront;
+    if Poker.Initiator then
       continue;
-    poker.Left := poker.Left + msg.WParam;
-    poker.Top := poker.Top + msg.LParam;
+    Poker.Left := Poker.Left + msg.WParam;
+    Poker.Top := Poker.Top + msg.LParam;
   end;
   inherited;
 end;
 
 procedure TFormMain.Process_WM_OTHERLEFTCLICK(var msg: TMessage);
 var
-  poker: TPoker;
+  Poker: TPoker;
 begin
-  if GOtherLeftPokerPile = nil then exit;
-  poker := GOtherLeftPokerPile.GetPoker(GOtherLeftPokerPile.PileNumber);
-  if poker <> nil then
+  if GOtherLeftPokerPile = nil then
+    exit;
+  Poker := GOtherLeftPokerPile.GetPoker(GOtherLeftPokerPile.PileNumber);
+  if Poker <> nil then
   begin
-    GOtherLeftPokerPile.Remove(poker);
+    GOtherLeftPokerPile.Remove(Poker);
     if GOtherLeftPokerPile.PileNumber < 1 then
       GOtherLeftBackGround.Show;
-    GOtherRightPokerPile.Add(poker);
-    poker.BelongToType := OTHERRIGHT;
-    poker.Flag := true;
-    poker.BringToFront;
+    GOtherRightPokerPile.Add(Poker);
+    Poker.BelongToType := OTHERRIGHT;
+    Poker.Flag := true;
+    Poker.BringToFront;
     GOtherLeftPokerPile.Show;
     GOtherRightPokerPile.Show;
     GameCheck();
@@ -831,7 +828,7 @@ end;
 
 procedure TFormMain.Process_WM_OTHERLEFTRESTART(var msg: TMessage);
 var
-  poker: TPoker;
+  Poker: TPoker;
   i: Integer;
 begin
   if GOtherRightPokerPile.PileNumber < 1 then
@@ -839,13 +836,13 @@ begin
   GOtherLeftBackGround.Hide;
   for i := 1 to GOtherRightPokerPile.PileNumber do
   begin
-    poker := GOtherRightPokerPile.GetPoker(GOtherRightPokerPile.PileNumber);
-    if poker <> nil then
+    Poker := GOtherRightPokerPile.GetPoker(GOtherRightPokerPile.PileNumber);
+    if Poker <> nil then
     begin
-      GOtherRightPokerPile.Remove(poker);
-      poker.Flag := false;
-      poker.BelongToType := OTHERLEFT;
-      GOtherLeftPokerPile.Add(poker);
+      GOtherRightPokerPile.Remove(Poker);
+      Poker.Flag := false;
+      Poker.BelongToType := OTHERLEFT;
+      GOtherLeftPokerPile.Add(Poker);
     end
     else
       beep;
@@ -862,38 +859,34 @@ end;
 
 procedure TFormMain.Process_WM_OTHERRIGHTENDMOVE(var msg: TMessage);
 var
-  num, centerX, centerY, targetX, targetY, targetIndex,
-    i: Integer;
-  poker, targetPoker, sourcePoker: TPoker;
+  num, centerX, centerY, targetX, targetY, targetIndex, i: Integer;
+  Poker, targetPoker, sourcePoker: TPoker;
 begin
   num := msg.LParam;
-  poker := GOtherRightPokerPile.GetPoker(num);
-  centerX := poker.Left + CONSTWIDTH div 2;
-  centerY := poker.Top + CONSTHEIGHT div 2;
+  Poker := GOtherRightPokerPile.GetPoker(num);
+  centerX := Poker.Left + CONSTWIDTH div 2;
+  centerY := Poker.Top + CONSTHEIGHT div 2;
   targetIndex := 0;
   for i := 1 to 7 do
   begin
     targetX := GPokerPile[i].Left;
     targetY := GPokerPile[i].Top;
-    if (centerX >= targetX) and (centerX <= targetX + CONSTWIDTH)
-      and (centerY >= targetY) and
-      (centerY <= targetY + 10 * CONSTHEIGHT) then
+    if (centerX >= targetX) and (centerX <= targetX + CONSTWIDTH) and (centerY >= targetY) and (centerY <= targetY + 10 * CONSTHEIGHT) then
     begin
       targetIndex := i;
     end;
   end;
   if targetIndex <> 0 then
   begin
-    targetPoker := GPokerPile[targetIndex]
-      .GetPoker(GPokerPile[targetIndex].PileNumber);
-    sourcePoker := poker;
+    targetPoker := GPokerPile[targetIndex].GetPoker(GPokerPile[targetIndex].PileNumber);
+    sourcePoker := Poker;
     if targetPoker = nil then
     begin
       if sourcePoker.X = 13 then
       begin
-        GOtherRightPokerPile.Remove(poker);
-        GPokerPile[targetIndex].Add(poker);
-        poker.BringToFront;
+        GOtherRightPokerPile.Remove(Poker);
+        GPokerPile[targetIndex].Add(Poker);
+        Poker.BringToFront;
         GOtherRightPokerPile.Show;
         GPokerPile[targetIndex].Show;
         GameCheck();
@@ -904,9 +897,9 @@ begin
     end
     else if PokerMatchPoker(targetPoker, sourcePoker) then
     begin
-      GOtherRightPokerPile.Remove(poker);
-      GPokerPile[targetIndex].Add(poker);
-      poker.BringToFront;
+      GOtherRightPokerPile.Remove(Poker);
+      GPokerPile[targetIndex].Add(Poker);
+      Poker.BringToFront;
       GOtherRightPokerPile.Show;
       GPokerPile[targetIndex].Show;
       GameCheck();
@@ -923,39 +916,35 @@ begin
     begin
       targetX := GGarbagePokerPile[i].Left;
       targetY := GGarbagePokerPile[i].Top;
-      if (centerX >= targetX) and (centerX <= targetX + CONSTWIDTH)
-        and (centerY >= targetY) and
-        (centerY <= targetY + CONSTHEIGHT) then
+      if (centerX >= targetX) and (centerX <= targetX + CONSTWIDTH) and (centerY >= targetY) and (centerY <= targetY + CONSTHEIGHT) then
       begin
         targetIndex := i;
       end;
     end;
     if targetIndex <> 0 then
     begin
-      targetPoker := GGarbagePokerPile[targetIndex]
-        .GetPoker(GGarbagePokerPile[targetIndex].PileNumber);
-      sourcePoker := poker;
+      targetPoker := GGarbagePokerPile[targetIndex].GetPoker(GGarbagePokerPile[targetIndex].PileNumber);
+      sourcePoker := Poker;
       if targetPoker = nil then
       begin
         if sourcePoker.X = 1 then
         begin
-          GOtherRightPokerPile.Remove(poker);
-          GGarbagePokerPile[poker.Y].Add(poker);
-          poker.BringToFront;
+          GOtherRightPokerPile.Remove(Poker);
+          GGarbagePokerPile[Poker.Y].Add(Poker);
+          Poker.BringToFront;
           GOtherRightPokerPile.Show;
-          GGarbagePokerPile[poker.Y].Show;
+          GGarbagePokerPile[Poker.Y].Show;
           GameCheck();
           GameComplete;
         end
         else
           GOtherRightPokerPile.Show;
       end
-      else if (sourcePoker.Y = targetPoker.Y) and
-        (sourcePoker.X = targetPoker.X + 1) then
+      else if (sourcePoker.Y = targetPoker.Y) and (sourcePoker.X = targetPoker.X + 1) then
       begin
-        GOtherRightPokerPile.Remove(poker);
-        GGarbagePokerPile[targetIndex].Add(poker);
-        poker.BringToFront;
+        GOtherRightPokerPile.Remove(Poker);
+        GGarbagePokerPile[targetIndex].Add(Poker);
+        Poker.BringToFront;
         GOtherRightPokerPile.Show;
         GGarbagePokerPile[targetIndex].Show;
         GameCheck();
